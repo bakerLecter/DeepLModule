@@ -2,7 +2,7 @@ import argparse
 import torch
 import numpy as np
 from Utils import LabelCount
-from Model import CAGBert
+from Model.CAGBert import CAGBert
 from EnhanceModule import KnowledgeEnhance
 from Utils import DataProcess
 from Utils import Optimization
@@ -110,7 +110,7 @@ def main():
     #训练模型
     TrainModule.trains(master_gpu_id=master_gpu_id, model=model, epochs=args.epochs,
         optimizer=optimizer, train_data=TrainSet, dev_set=DevSet, test_data=TestSet,
-        batch_size=args.batch_size, gradient_accumulation_steps=args.gradient_accumulation_steps,
+        batch_size=args.batch_size, labelNum=modelArgs["label_size"], gradient_accumulation_steps=args.gradient_accumulation_steps,
         use_cuda=use_cuda, num_workers=1)
 
 if __name__ == '__main__':

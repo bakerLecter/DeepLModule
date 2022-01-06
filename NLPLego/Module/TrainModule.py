@@ -1,9 +1,10 @@
+from . import EvalModule
 import tqdm
 import logging
 import torch.utils.data as data
 import time
 import torch.nn.functional as F
-from . import EvalModule
+
 
 logging.basicConfig(level=logging.INFO,format="%(asctime)s - %(levelname)s - %(message)s")  # 使用指定字符串格式
 
@@ -66,7 +67,7 @@ def train_epoch(master_gpu_id, model, optimizer, data_loader, gradient_accumulat
     return total_loss / num_batch  # 返回平均每一个batch的损失值
 
 
-def trains(master_gpu_id, model, epochs, optimizer, train_data, dev_set, test_data,batch_size, gradient_accumulation_steps=1, use_cuda=False, num_workers=4, modelArgs=None):
+def trains(master_gpu_id, model, epochs, optimizer, train_data, dev_set, test_data, batch_size, labelNum, gradient_accumulation_steps=1, use_cuda=False, num_workers=4):
     logging.info("Start Training".center(60, "="))
     train_data_loader = data.DataLoader(dataset=train_data,
                                         pin_memory=use_cuda,
@@ -88,7 +89,7 @@ def trains(master_gpu_id, model, epochs, optimizer, train_data, dev_set, test_da
         logging.info("Average Loss: " + format(avg_loss, "0.4f"))
 
         logging.info("Evaluating Model in Dev set".center(60, "="))
-        EvalModule.evaluates(master_gpu_id, model, dev_set, batch_size, use_cuda, num_workers, modelArgs)
+        EvalModule.evaluates(master_gpu_id, model, dev_set, labelNum, batch_size, use_cuda, num_workers)
 
         logging.info("Evaluating Model in Test set".center(60, "="))
-        EvalModule.evaluates(master_gpu_id, model, test_data, batch_size, use_cuda, num_workers, modelArgs)
+        EvalModule.evaluates(master_gpu_id, model, test_data,labelNum, batch_size, use_cuda, num_workers)

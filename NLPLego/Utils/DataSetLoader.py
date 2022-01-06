@@ -13,7 +13,7 @@ class DataSetLoader(torch.utils.data.Dataset):
 
     def __init__(self, max_len=512-2, Index=None, RawData=None):
         self.max_len = max_len
-        self.tokenizer = AutoTokenizer.from_pretrained(model_name, cache_dir="./bert/")  # 加载分词器
+        self.tokenizer = AutoTokenizer.from_pretrained(model_name, cache_dir="./Cache/")  # 加载分词器
         # self.tokenizer = RobertaTokenizer.from_pretrained(model_name, cache_dir="./bert/")
         self.Index = Index
         # if DataPath != None:

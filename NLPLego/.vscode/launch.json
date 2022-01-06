@@ -14,7 +14,8 @@
                 "--data_dir","./Datasets/law_qa",
                 "--model","nghuyong/ernie-1.0",
                 "--output_dir","./datasets/lcqmc",
-                "--seed","7"
+                "--seed","7",
+                "--childTuningF","False"
             ]
         }
     ]

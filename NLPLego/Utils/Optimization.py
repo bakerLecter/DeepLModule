@@ -129,7 +129,6 @@ class BERTAdam(Optimizer):
                 # Using ChildTuning F
                 global ChildTuningFlag
                 if ChildTuningFlag == True:
-                    print(ChildTuningFlag)
                     reserve_p = 0.3
                     grad_mask = Bernoulli(grad.new_full(size=grad.size(), fill_value=reserve_p))
                     grad *= grad_mask.sample() / reserve_p

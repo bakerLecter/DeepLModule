@@ -5,13 +5,13 @@ import logging
 import torch.nn.functional as F
 from sklearn.metrics import precision_score, recall_score
 
-def evaluates_pr(labels, predictions, modelArgs):
+def evaluates_pr(labels, predictions, labelNum):
     label=[]
     pred=[]
     for lb, pd in zip(labels, predictions):
         label.append(lb.cpu().numpy().tolist())
         pred.append(pd.cpu().numpy().tolist())
-    if modelArgs['label_size'] > 2:
+    if labelNum > 2:
         precise = precision_score(label, pred, average='weighted')
         recall = recall_score(label, pred, average='weighted')
     else:
@@ -21,7 +21,7 @@ def evaluates_pr(labels, predictions, modelArgs):
     return precise, recall
 
 
-def evaluates(master_gpu_id, model, test_data, batch_size = 1,use_cuda=False, num_workers=4, modelArgs=None):
+def evaluates(master_gpu_id, model, test_data, labelNum , batch_size = 1,use_cuda=False, num_workers=4):
     model.eval()  # 测试模式
     test_data_loader = data.DataLoader(dataset=test_data,
                                     pin_memory=use_cuda,
@@ -70,7 +70,7 @@ def evaluates(master_gpu_id, model, test_data, batch_size = 1,use_cuda=False, nu
     # 计算精确率和召回率
     labels = [info[0] for info in infos]
     predictions = [info[1] for info in infos]
-    precision, recall = evaluates_pr(labels, predictions, modelArgs)
+    precision, recall = evaluates_pr(labels, predictions, labelNum)
     F1 = 2 * precision * recall / (precision + recall)
     logging.info("precision: " + str(precision))
     logging.info("recall: " + str(recall))
