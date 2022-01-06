@@ -7,7 +7,7 @@ import logging
 
 FLOPs = 0
 
-class KnowledgeInject(object):
+class KnowledgeEnhance(object):
     def __init__(self, KGPath = None, MaxEntitiesSelect = 2):
         logging.info("Loading KG Injector".center(60, "="))
         self.DataPath = KGPath
